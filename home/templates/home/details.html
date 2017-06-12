@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+{% load static %}
+<head>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+</head>
+
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="{% url 'home:index' %}">Shopping Cart</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li class="active"><a href="#">Home</a></li>
+      <li><a href="#">About</a></li>
+      <li><a href="{% url 'home:login' %}">Login</a></li>
+      <li><a href="{% url 'home:cart' %}">Cart <span class="badge">{{ request.session.cart }}</span></a></li>
+    </ul>
+  </div>
+</nav>
+
+<body>
+
+<div class="container">
+	<div class="well">
+		<div class="row">
+			<div class="col-lg-4 col-md-4 col-xs-4">
+			{% if items %}
+				<h1>{{ items.itemname }}</h1>
+				<img src="{{ MEDIA_URL }}{{ items.image }}" style="width:200px;">
+				<h1>Price: P{{ items.itemprice }}.00</h1>
+				<a href="{% url 'home:addtocart' items.id %}"><button class="btn btn-success">Add to Cart</button></a>
+				<a href="{% url 'home:index' %}"><button class="btn btn-default">Back</button></a>
+				<h3 class="text text-success" id="datatxt" hidden>Item Added to Cart</h3>
+			{% endif %} 
+			</div>
+
+			<div class="col-lg-8 col-md-8 col-xs-8"><br /><br />
+				Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ullamcorper tellus non urna sodales, id porta erat facilisis. Fusce nunc sem, condimentum quis facilisis vitae, fringilla a elit. Ut aliquam id nisi sed viverra. Phasellus commodo nulla non ipsum egestas, a mattis felis consequat. Donec nec est malesuada, scelerisque ante et, posuere nisi. Mauris nibh nibh, dictum a purus at, mattis euismod mi. Etiam dapibus semper urna, ac accumsan quam consectetur feugiat. Vestibulum et euismod neque. Aenean et cursus ligula, vitae semper magna. Sed fringilla malesuada velit sit amet dictum. Proin aliquam velit sed ultricies mollis. Nunc sodales est nunc, dignissim lacinia tellus placerat ut. Mauris fringilla tortor ac ex aliquam, id congue mauris vulputate. Morbi tristique massa vitae dolor cursus, sit amet efficitur quam pellentesque. In nec augue sit amet ex tincidunt tristique et sit amet ante. Etiam lectus orci, fermentum in semper non, tempor non elit.
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+<script href="{% static 'js/bootstrap.js' %}"></script>
+</body>
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+{% load static %}
+<head>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+</head>
+
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="{% url 'home:index' %}">Shopping Cart</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li class="active"><a href="#">Home</a></li>
+      <li><a href="#">About</a></li>
+      <li><a href="{% url 'home:login' %}">Login</a></li>
+      <li><a href="{% url 'home:cart' %}">Cart <span class="badge">{{ request.session.cart }}</span></a></li>
+    </ul>
+  </div>
+</nav>
+
+<body>
+
+<div class="container">
+
+	<table class="table table-bordered">
+	<thead>
+		<tr>
+			<th>Item No.</th>
+			<th>Item Name</th>
+			<th>Quantity</th>
+			<th>Value</th>
+			<th>Category</th>
+			<th>Action</th>
+		</tr>
+	</thead>
+	<tbody>
+	{% if request.session.mycart %}
+		{% for cart in request.session.mycart %}
+		<tr>
+			<td>{{ forloop.counter }}</td>
+			<td>{{ cart.itemname }}</td>
+			<td>
+			<div class="form-inline">
+				<form action="{% url 'home:updatequantity' forloop.counter %}" method="post">
+				{% csrf_token %}
+					<input type="number" class="form-control" name="quantity" value="{{ cart.quantity }}">
+					<input type="submit" class="btn btn-default" value="Update">
+				</div>
+			</form>
+			</td>
+			<td>{% widthratio cart.quantity 1 cart.itemprice %}</td>
+			<td>{{ cart.category }}</td>
+			<td><a href="{% url 'home:removecart' forloop.counter %}"><button class="btn btn-danger">Remove</button></a></td>
+		</tr>
+		{% endfor %}
+	{% endif %}
+	<tr>
+		<td colspan="5" align="right"><h3 class="text-success">TOTAL</h3></td>
+		<td colspan="5" align="right"><h3 class="text-success">P{{ total }}.00</h3></td>
+	</tr>
+	<tr>
+		<td colspan="6" align="right"><a href="{% url 'home:emptycart' %}"><button class="btn btn-primary">Empty Cart</button></a></td>
+	</tr>
+	</tbody>
+
+	</table>
+
+</div>
+
+
+
+<script href="{% static 'js/bootstrap.js' %}"></script>
+</body>
+</html>

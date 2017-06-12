@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>LOGIN</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="{% url 'home:index' %}">Shopping Cart</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li class="active"><a href="#">Home</a></li>
+      <li><a href="#">About</a></li>
+      <li><a href="{% url 'home:login' %}">Login</a></li>
+      <li><a href="{% url 'home:cart' %}">Cart <span class="badge">{{ request.session.cart }}</span></a></li>
+    </ul>
+  </div>
+</nav>
+
+<body>
+
+<div class="container">
+	<div class="row">
+		<div class="col-lg-5 col-md-5 col-xs-5">
+			<form action="{% url 'home:loginsubmit' %}" method="post">
+			{% csrf_token %}
+			  <div class="form-group">
+			    <label for="username">Username:</label>
+			    <input type="text" class="form-control" name="username" id="username">
+			  </div>
+			  <div class="form-group">
+			    <label for="pwd">Password:</label>
+			    <input type="password" class="form-control" name="password" id="pwd">
+			  </div>
+			  <input type="submit" class="btn btn-default" value ="Submit">
+			</form>
+		</div>
+	</div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+{% load static %}
+<head>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+</head>
+
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="{% url 'home:index' %}">Shopping Cart</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li class="active"><a href="#">Items</a></li>
+      <li><a href="{% url 'home:logout' %}">Logout</a></li>
+    </ul>
+  </div>
+</nav>
+
+<body>
+
+<div class="container">
+	<div class="row">
+    <div class="col-lg-5 col-md-5 col-xs-5">
+
+      {% if iid %}
+        <form action="{% url 'home:update' %}" method="post" enctype="multipart/form-data">
+       {% csrf_token %}
+        <div class="form-group">
+           <input type="hidden" name="iid" value="{{ data.pk }}">
+          <label for="itemname">Item Name</label>
+          <input type="text" class="form-control" name="itemname" id="itemname" value="{{ data.itemname }}">
+        </div>
+        <div class="form-group">
+          <label for="itemprice">Item Price</label>
+          <input type="text" class="form-control" name="itemprice" id="itemprice" value="{{ data.itemprice }}">
+        </div>
+        <div class="form-group">
+          <label for="category">Category</label>
+          <select name="category" class="form-control">
+            <option>{{ data.category }}</option>
+            <option>Appliances</option>
+            <option>Clothes</option>
+            <option>Gadgets</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="image">Image</label>
+          <input type="file" class="form-control" name="image" id="image">
+          <img src="{{ MEDIA_URL }}{{ data.image }}" style="width:200px;">
+        </div>
+        <input type="submit" class="btn btn-default" value ="Submit">
+      </form>
+
+
+      {% else %}
+
+      <form action="{% url 'home:additem' %}" method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+        <div class="form-group">
+          <label for="itemname">Item Name</label>
+          <input type="text" class="form-control" name="itemname" id="itemname">
+        </div>
+        <div class="form-group">
+          <label for="itemprice">Item Price</label>
+          <input type="text" class="form-control" name="itemprice" id="itemprice">
+        </div>
+        <div class="form-group">
+          <label for="category">Category</label>
+          <select name="category" class="form-control">
+            <option value="">Select Category</option>
+            <option>Appliances</option>
+            <option>Clothes</option>
+            <option>Gadgets</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="image">Image</label>
+          <input type="file" class="form-control" name="image" id="image">
+        </div>
+        <input type="submit" class="btn btn-default" value ="Submit">
+      </form>
+
+      {% endif %}
+
+    </div>
+
+    <div class="col-lg-7 col-md-7 col-xs-7">
+
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>No</th>
+              <th>Item Name</th>
+              <th>Item Price</th>
+              <th>Category</th>
+              <th>Image</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% if items %}
+              {% for data in items %}
+            <tr>
+              <td>{{ forloop.counter }}</td>
+              <td>{{ data.itemname }}</td>
+              <td>{{ data.itemprice }}</td>
+              <td>{{ data.category }}</td>
+              <td><img src="{{ MEDIA_URL }}{{ data.image }}" style="width:30px"></td>
+              <td><a href="{% url 'home:edit' data.id %}"><button class="btn btn-success">Edit</button></a><a href="{% url 'home:delete' data.id %}"><button class="btn btn-danger">Delete</button></a></td>
+
+            </tr>
+              {% endfor %}
+            {% endif %}
+          </tbody>
+
+        </table>
+
+
+    </div>
+
+
+  </div>
+</div>
+
+
+
+
+<script href="{% static 'js/bootstrap.js' %}"></script>
+</body>
+</html>

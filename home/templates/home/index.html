@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+{% load static %}
+<head>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+</head>
+
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="{% url 'home:index' %}">Shopping Cart</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li class="active"><a href="#">Home</a></li>
+      <li><a href="#">About</a></li>
+      <li><a href="{% url 'home:login' %}">Login</a></li>
+      <li><a href="{% url 'home:cart' %}">Cart <span class="badge">{{ request.session.cart }}</span></a></li>
+    </ul>
+  </div>
+</nav>
+
+<body>
+
+<div class="container">
+	<div class="row">
+		<div class="col-lg-2 col-md-2 col-xs-2">
+			<ul class="list-group">
+			  <li class="list-group-item"><h4>Category</h4></li>
+			  <li class="list-group-item">Appliances</li>
+			  <li class="list-group-item">Clothes</li>
+			  <li class="list-group-item">Gadgets</li>
+			</ul>
+		</div>
+
+	{% if latest_item_list %}
+		{% for item in latest_item_list %}
+	<div class="col-lg-2 col-mid-2 col-xs-2">
+		<h3>{{ item.itemname }}</h3>
+		<img src="{{ MEDIA_URL }}{{ item.image }}" style="width:100px;">
+		<a href="{% url 'home:details' item.id %}"><button class="btn btn-primary">View Details</button></a>
+	</div>
+		{% endfor %}
+	{% endif %}
+
+
+	</div>
+
+</div>
+
+
+
+
+<script href="{% static 'js/bootstrap.js' %}"></script>
+</body>
+</html>
